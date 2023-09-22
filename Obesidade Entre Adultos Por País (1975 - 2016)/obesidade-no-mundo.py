@@ -1,10 +1,9 @@
 
 ####################################   Projeto - Obesidade no Mundo   ####################################
 
-
 '''
 Link para o dataset:
-[Obesity among adults by country, 1975-2016](https://www.kaggle.com/amanarora/obesity-among-adults-by-country-19752016/)
+[Obesity among adults by country, 1975-2016 (https://www.kaggle.com/amanarora/obesity-among-adults-by-country-19752016/)]
 '''
 
 # %%
@@ -25,7 +24,7 @@ df = pd.read_csv('Datasets/obesity.csv', index_col=0)
 df['Variation'] = df['Obesity (%)'].apply(lambda x: x.split(' ')[1])
 df['Obesity'] = df['Obesity (%)'].apply(lambda x: x.split(' ')[0])
 
-
+# Removendo entrada de dados sem informações sobre a obesidae
 df.loc[df['Obesity'] == 'No', 'Obesity'] = np.nan
 df.dropna(inplace=True)
 
@@ -36,48 +35,36 @@ df['Obesity'] = df['Obesity'].str.replace(',','.').astype(float)
 df.info()
 
 # %%
-##############################################################################################
+#################### Insights Sobre os Dados ####################
 
-# Qual o percentual médio de obesidade por sexo no mundo no ano de 2015?
 
-print('\nPercentual médio de obesidade por sexo no mundo em 2015:')
+# Percentual médio de obesidade por sexo no mundo em 2016
 print('Feminino: ', end='')
-print('{:.3f}' .format(df[(df['Year'] == 2015) & (df['Sex'] == 'Female')]['Obesity'].mean()))
+print('{:.3f}' .format(df[(df['Year'] == 2016) & (df['Sex'] == 'Female')]['Obesity'].mean()))
 
 print('Masculino: ', end='')
-print('{:.3f}' .format(df[(df['Year'] == 2015) & (df['Sex'] == 'Male')]['Obesity'].mean()))
+print('{:.3f}' .format(df[(df['Year'] == 2016) & (df['Sex'] == 'Male')]['Obesity'].mean()))
 
-print('\n', df[df['Year'] == 2015].groupby('Sex').mean())
+print()
+df[df['Year'] == 2016].groupby('Sex').mean()
 
 
-##############################################################################################
+# %%
+# Os 5 países com a maior e a menor taxa de aumento nos índices de obesidade no período observado
 
-# Quais são os 5 países com a maior e a menor taxa de aumento nos índices de obesidade no período observado?
 
 dif = df.groupby(['Country', 'Sex'])[['Obesity']].last() - df.groupby(['Country', 'Sex'])[['Obesity']].first()
 dif.reset_index(inplace=True)
 
+# Os 5 países com a maior taxa de aumento nos índices de obesidade no período observado
 print('\nOs 5 países com maior taxa de aumento nos índices de obesidade no período observado para ambos os sexos são:')
 maiores = dif[dif['Sex'] == 'Both sexes'].nlargest(5, 'Obesity')
 print(maiores.reset_index())
 
+# Os 5 países com a menor taxa de aumento nos índices de obesidade no período observado
 print('\nOs 5 países com menor taxa de aumento nos índices de obesidade no período observado para ambos os sexos são:')
 menores = dif[dif['Sex'] == 'Both sexes'].nsmallest(5, 'Obesity')
 print(menores.reset_index())
-
-# df_start = df[df['Year'] == 2016]
-# df_end = df[df['Year'] == 1975]
-
-# df_start.set_index(inplace=True)
-# df_end.set_index(inplace=True)
-
-# df_ev = df_end[df_end['Sex'] == 'Both sexes']['Obesity'] - df_start[df_start['Sex'] == 'Both sexes']['Obesity']
-
-# df_ev.sort_values().dropna().head(5)
-# df_ev.sort_values().dropna().tail(5)
-
-
-##############################################################################################
 
 # Quais os países com maiores e menores níveis percetuais de obesidade em 2015?
 
