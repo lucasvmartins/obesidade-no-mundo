@@ -1,5 +1,9 @@
 # Projeto - Obesidade no Mundo
 
+## Link para o dataset
+
+Obesity among adults by country, 1975-2016 (https://www.kaggle.com/amanarora/obesity-among-adults-by-country-19752016/)
+
 ## Visão Geral
 
 Este projeto tem como objetivo analisar dados relacionados à obesidade no mundo, usando um conjunto de dados disponível no Kaggle. O problema que buscamos resolver é entender a evolução da obesidade em diferentes países ao longo do tempo, identificar países com maiores e menores taxas de aumento nos índices de obesidade e obter insights sobre como a obesidade varia entre os sexos.
